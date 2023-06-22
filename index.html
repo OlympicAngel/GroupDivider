@@ -1,0 +1,155 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/searchPlayer.js"></script>
+    <script src="./js/player.js"></script>
+    <script src="./js/team.js"></script>
+    <script src="./js/script.js"></script>
+    <link rel="stylesheet" href="./style.css">
+
+    <link rel="stylesheet" href="https://www.olympicangelabz.com/master/style/reset.css">
+    <link rel="stylesheet" href="https://www.olympicangelabz.com/master/style/fontawsome.css">
+    <link rel="stylesheet" href="https://www.olympicangelabz.com/master/style/animate.css">
+    <link rel="stylesheet" href="https://www.olympicangelabz.com/master/style/main.css">
+
+
+</head>
+
+<body>
+    <main>
+
+        <style id="teamStyle">
+
+        </style>
+
+        <h1>מחלק קבוצות עם העדפות</h1>
+        <article class="view" box id="app">
+
+            <datalist id="playerList"> </datalist>
+
+            <div split="0.5">
+                <fieldset>
+                    <legend>
+                        <label for="newPlayerInput">
+                            <h3>הוספת שחקן:</h3>
+                        </label>
+                    </legend>
+
+                    <form onsubmit="NewPlayer(event)" autocomplete="off">
+                        <div split="0.7">
+                            <input id="newPlayerInput" required minlength="2" placeholder="הזן שם של שחקן"
+                                alt="הכנס שם של שחקן חדש" pattern="[\wא-ת .]{2,}">
+                        </div>
+                        <div split="0.3">
+                            <button class="green">הוסף</button>
+                        </div>
+                    </form>
+                </fieldset>
+                <fieldset>
+                    <legend>
+                        <h3>הגדרות:</h3>
+                    </legend>
+                    <label for="maxPrefer">כמות העדפות לכל שחקן:</label>
+                    <input type="number" id="maxPrefer" alt="כמות העדפות שיש לכל שחקן" class="min"
+                        oninput="settings_referCountChange(this)" min="1" max="9" value="2">
+                    <br>
+
+                    <label for="maxPrefer">כמות קבוצות:</label>
+                    <input type="number" id="teamCount" alt="כמות הקבוצות" class="min"
+                        oninput="settings_teamCountChange(this)" min="2" max="100" value="3">
+                    <br><br>
+                </fieldset>
+
+            </div>
+
+
+            <div id="playerEdit" class="disabled" split="0.5">
+                <label for="playerPrefferSelect">
+                    <h3 style="display: inline-block;">הגדרות שחקן:</h3>
+                </label>
+                <select id="playerPrefferSelect" alt="בחירת שחקן לשינוי ההגדרות שלו" onchange="updatePlayerEditDiv()">
+                </select>
+                <div id="playerOptions" split="0.9">
+                    <label for="newPlayerInput">שם:</label>
+                    <input id="editName" class="inline" alt="שינוי שם השחקן" minlength="2" autocomplete="off"
+                        placeholder="עדכן שם של שחקן" oninput="onEditPlayerName_input(event)"
+                        onchange="onUpdatePlayerName()" pattern="[\wא-ת .]{2,}">
+                    <div class="alert" id="nameExistError" shown="false">
+                        <span class="icon"></span>
+                        <label>השם שהוזן קטן מידי או דומה לשם אחר.</label>
+                    </div>
+                    <hr>
+                    <fieldset>
+                        <legend>
+                            <h4>העדפות לקבוצה:</h4>
+                        </legend>
+                        <sub>הכלי ינסה לצמד את השחקן עם העדפות שלו, העדפה בדירוג יותר גבוהה תקבל עדיפות בחלוקה
+                            לקבוצות.</sub>
+
+                        <div id="freferOpts">
+                            <label for="newPlayerInput">1:</label>
+                            <input id="prefer1" class="inline" list="playerList" minlength="2"
+                                placeholder="שחקן מועדף מספר #1" oninput="updatePreferList(event)"><span
+                                class="icon none"></span><label></label>
+                            <br>
+                            <label for="newPlayerInput">2:</label>
+                            <input id="prefer2" class="inline" list="playerList" minlength="2"
+                                placeholder="שחקן מועדף מספר #2" oninput="updatePreferList(event)"><span
+                                class="icon none"></span><label></label>
+                        </div>
+                    </fieldset>
+                </div>
+                <button class="red icon" onclick="deletePlayer()"><span class="icon"></span>מחק שחקן</button>
+
+            </div>
+
+
+            <div id="teamView">
+
+            </div>
+        </article>
+
+        <br>
+        <hr><br>
+        <article class="" box>
+            <h1>מה בכלי?</h1>
+            <br>
+
+            <div split="0.3">
+                <h2>חלוקה:</h2>
+                <p box class="view">
+                    אלגוריתם חלוקה לקבוצות על ידי שיכלול כמות שחקנים אל מול קבוצות, תוך התחשבות בהעדפות של כל שחקן - עם
+                    מי הוא רוצה להיות, כל זה בניסיון על שמירת כמות השחקנים בצורה מאוזנת בכל קבוצה, וכמובן עם יכולת
+                    דינמית להוריד/להוסיף העדפות, ואו כמות קבוצות </p>
+            </div>
+
+            <div split="0.3">
+                <h2>אלגוריתם:</h2>
+                <p box class="view">
+                    מערכת העדפות עובדת בצורה של שכלול משקלים בצורה של העדפות, ברגע ששחקן מעדיף להיות עם שחקן אחר נוצר
+                    בינהם מעיין קשר שמחושב במשקל מ 0% עד 100%,
+                    כך למעשה הכלי מחשב את סכום הקשרים בכל קבוצה - ולפי זה מחליט עם שחקן שיצטרף לקבוצה יוסיף או יוריד
+                    לסכום הקשרים בקבוצה החדשה אל מול הישנה.
+                </p>
+            </div>
+
+            <div split="0.3">
+                <h2>טיפים:</h2>
+                <p box class="view">
+                    ככל ששחקן מדורג יותר גבוהה ברשימת העדפות של שחקן אחר ככה יהיה יותר סיכוי שהוא יהיה איתו ביחד. שחקן
+                    יכול לקבל את כל העדפות שבחר כל עוד אין התנגשות בהעדפות וכמובן במגבלת כמות השחקנים בקבוצה,
+                    <br>
+                    ברגע ששחקן נבחר בהגדרות שחקן - יהיה ניתן לראות אותו ואת כל העדפות שלו בצורה קלה ברשימת הקבוצות.
+                </p>
+            </div>
+
+            <br>
+        </article>
+    </main>
+</body>
+
+</html>

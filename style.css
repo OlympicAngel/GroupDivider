@@ -1,0 +1,275 @@
+ #teamView {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 1em;
+     justify-content: space-evenly;
+     padding: 1em;
+ }
+
+ #teamView .team {
+     background-color: var(--color);
+     min-width: min(25vmin, 100px);
+     border-radius: 1em;
+     overflow: hidden;
+     position: relative;
+     padding: 0.5em;
+     display: flex;
+     gap: 0.5em;
+     flex-wrap: wrap;
+     justify-content: space-evenly;
+     align-content: center;
+     flex: 1;
+ }
+
+ #teamView div[id^="player"] {
+     background-color: var(--color);
+     box-shadow: inset 0 100vh rgba(0, 0, 0, 0.5);
+     padding: 0.5em;
+     text-shadow: 0 0.1em 0.1em BLACK, 0 0.1em 0.5em BLACK;
+     position: relative;
+     border-radius: 0.3em;
+     flex: 1;
+     white-space: break-spaces;
+     line-break: anywhere;
+     max-width: 100%;
+     min-width: 30%;
+     box-sizing: border-box;
+ }
+
+ div[id^="player"].selected {
+     border: dashed white 0.2em;
+     background-color: black !important;
+     box-shadow: 0 0 0.4em #000 !important;
+     font-weight: 900;
+     animation: headShake 2s infinite ease-in-out;
+ }
+
+ div[id^="player"].link {
+     border: black dashed;
+     animation: flash 5s infinite ease-in-out;
+ }
+
+ @keyframes flash {
+
+     0%,
+     50%,
+     to {
+         opacity: 1
+     }
+
+     25%,
+     75% {
+         opacity: 0.5
+     }
+ }
+
+ .alert {
+     border: dashed var(--high3) 0.15em;
+     padding: 0.2em 1em;
+     width: fit-content;
+     margin: auto;
+     border-radius: 0.3em;
+     background: #000;
+     height: calc(1em + 0.2em*2);
+     overflow: hidden;
+     transition: 0.3s, background 1s;
+     transition-timing-function: cubic-bezier(0, 0.2, 0.18, 1);
+     position: relative;
+ }
+
+ .alert:not([shown="true"]) {
+     height: 0;
+     background: red;
+     padding-bottom: 0;
+     border-width: 0;
+     padding-top: 0;
+ }
+
+ .alert .icon,
+ #freferOpts .icon {
+     background: red;
+     width: 1.4em;
+     height: 1.4em;
+     display: inline-block;
+     border-radius: 100%;
+     top: auto;
+     transition: 2s;
+     line-height: 1.4em;
+ }
+
+ #freferOpts .icon::after {
+     content: "";
+     transition: transform 2s;
+     display: block;
+     transform-origin: bottom;
+     transition-timing-function: cubic-bezier(0, 0.74, 0, 1);
+
+ }
+
+ #freferOpts .icon.good {
+     background: lime;
+     color: black;
+ }
+
+ #freferOpts .icon.good:after {
+     content: "";
+     transform: rotate(360deg);
+
+ }
+
+ #freferOpts .icon.error {
+     background: black;
+     color: red;
+     box-shadow: inset 0 0 0 0.1em red
+ }
+
+ #freferOpts .icon.none {
+     opacity: 0;
+     pointer-events: none;
+ }
+
+ #freferOpts .icon.error:after {
+     content: "";
+     transform: rotate(-360deg);
+
+ }
+
+ #freferOpts .icon {
+     overflow: hidden;
+     margin-right: 0.3em;
+     cursor: pointer;
+     top: 0.25em;
+ }
+
+ #freferOpts .icon.icon.good {
+     animation: fadeout 5s 2s both;
+
+ }
+
+
+ @keyframes fadeout {
+     0% {
+         opacity: 1;
+     }
+
+     100% {
+         opacity: 0;
+         pointer-events: none;
+     }
+ }
+
+
+ #freferOpts .icon+label {
+     position: absolute;
+     width: max-content;
+     transform: translate(calc(50% + 0.5em), 1.5em);
+     background: var(--high3);
+     padding: 0.5em;
+     border-radius: 0.5em;
+     text-shadow: 0.07em 0.16em #000, 0 0 0.3em #000;
+     border: solid 0.15em black;
+     box-shadow: inset 0 0 1em red, 0 0.5em 1em -0.3em #000;
+     font-weight: 900;
+     display: none;
+     z-index: 2;
+     font-size: 0.9em;
+     white-space: break-spaces;
+ }
+
+ #freferOpts .icon.good+label {
+     box-shadow: inset 0 0 1em lime, 0 0.5em 1em -0.3em #000;
+     background: #000;
+ }
+
+ #freferOpts .icon.קררםר+label {
+     background: red;
+ }
+
+ @media only screen and (max-width: 600px) {
+     #freferOpts .icon+label {
+         left: 0;
+         transform: translate(0.5em, 1.5em);
+     }
+ }
+
+ #freferOpts .icon:is(:hover, :active)+label,
+ #freferOpts .icon+label:is(:hover, :active) {
+     display: inline-block;
+ }
+
+ #freferOpts .icon+label::before {
+     content: "שחקן לא קיים!\aיש להוסיף אותו!"
+ }
+
+
+ #freferOpts .icon.good+label::before {
+     content: "שחקן קיים."
+ }
+
+ #freferOpts .icon.error+label::before {
+     content: "בחירה עצמית."
+ }
+
+
+
+ .info {
+     background-color: gray;
+ }
+
+ .icon {
+     line-height: inherit;
+     font-size: 0.9em;
+     position: relative;
+     top: 0.1em;
+ }
+
+ fieldset {
+     border-radius: 0.5em;
+ }
+
+ sub,
+ sup {
+     line-height: initial;
+ }
+
+ input:not([type=checkbox]) {
+     min-height: max(5vmin, 30px);
+     font-size: calc(max(5vmin, 30px) * 0.5);
+     width: calc(95% - 2em) !important;
+     margin: 0.5em;
+ }
+
+ #freferOpts {
+     margin-top: 1em;
+     max-height: 29vmin;
+     overflow: auto;
+ }
+
+ #freferOpts input,
+ .min {
+     min-height: 1.3em !important;
+     font-size: 1em !important;
+     margin: 0.3em 0;
+ }
+
+ .min:not(a) {
+     width: min-content !important;
+ }
+
+ #playerEdit,
+ article>div[split] {
+     padding-bottom: 1.5em;
+ }
+
+ .inline {
+     width: calc(100% - 4em) !important;
+ }
+
+ #playerEdit {
+     transition: filter 0.5s;
+ }
+
+ .disabled {
+     pointer-events: none;
+     filter: blur(0.2em) saturate(0);
+ }
