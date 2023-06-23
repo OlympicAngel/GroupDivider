@@ -26,43 +26,47 @@
 
         </style>
 
-        <h1>מחלק קבוצות עם העדפות</h1>
-        <article class="view" box id="app">
+        <style id="teamStyle">
+
+        </style>
+
+
+        <article class="view" box id="app" spliter>
 
             <datalist id="playerList"> </datalist>
 
-            <div split="0.5">
-                <fieldset>
-                    <legend>
-                        <label for="newPlayerInput">
-                            <h3>הוספת שחקן:</h3>
-                        </label>
-                    </legend>
+            <div split="0.5" box>
 
-                    <form onsubmit="NewPlayer(event)" autocomplete="off">
-                        <div split="0.7">
-                            <input id="newPlayerInput" required minlength="2" placeholder="הזן שם של שחקן"
-                                alt="הכנס שם של שחקן חדש" pattern="[\wא-ת .]{2,}">
-                        </div>
-                        <div split="0.3">
-                            <button class="green">הוסף</button>
-                        </div>
-                    </form>
-                </fieldset>
-                <fieldset>
-                    <legend>
-                        <h3>הגדרות:</h3>
-                    </legend>
+                <h3>הוספת שחקן:</h3>
+
+                <form onsubmit="NewPlayer(event)" autocomplete="off">
+                    <div split="0.7">
+                        <input id="newPlayerInput" required minlength="2" placeholder="הזן שם של שחקן"
+                            alt="הכנס שם של שחקן חדש" pattern="[\wא-ת .]{2,}">
+                    </div>
+                    <div split="0.3">
+                        <button class="green">הוסף</button>
+                    </div>
+                </form>
+
+
+                <h3>הגדרות:</h3>
+
+                <div split="0.5">
                     <label for="maxPrefer">כמות העדפות לכל שחקן:</label>
                     <input type="number" id="maxPrefer" alt="כמות העדפות שיש לכל שחקן" class="min"
                         oninput="settings_referCountChange(this)" min="1" max="9" value="2">
-                    <br>
-
+                </div>
+                <div split="0.5">
                     <label for="maxPrefer">כמות קבוצות:</label>
                     <input type="number" id="teamCount" alt="כמות הקבוצות" class="min"
                         oninput="settings_teamCountChange(this)" min="2" max="100" value="3">
-                    <br><br>
-                </fieldset>
+                </div>
+
+                <sub></sub>
+                <button onclick="shufflePlayers()" class="orange"
+                    style="font-size: 1em; height: 1em; min-height: 1.5em; width: auto; padding: 0 1em;">סידור
+                    אקראי</button> <sub>שינוי קבוצות עד כמה שאפשר.</sub>
 
             </div>
 
@@ -108,47 +112,53 @@
             </div>
 
 
-            <div id="teamView">
 
-            </div>
         </article>
 
         <br>
-        <hr><br>
-        <article class="" box>
+        <div id="teamView">
+
+        </div>
+        <br>
+        <article class="view" box>
             <h1>מה בכלי?</h1>
             <br>
 
-            <div split="0.3">
-                <h2>חלוקה:</h2>
-                <p box class="view">
-                    אלגוריתם חלוקה לקבוצות על ידי שיכלול כמות שחקנים אל מול קבוצות, תוך התחשבות בהעדפות של כל שחקן - עם
-                    מי הוא רוצה להיות, כל זה בניסיון על שמירת כמות השחקנים בצורה מאוזנת בכל קבוצה, וכמובן עם יכולת
-                    דינמית להוריד/להוסיף העדפות, ואו כמות קבוצות </p>
-            </div>
+            <div spliter>
+                <div split="0.3" box>
+                    <h2>חלוקה:</h2>
+                    <p>
+                        אלגוריתם חלוקה לקבוצות על ידי שיכלול כמות שחקנים אל מול קבוצות, תוך התחשבות בהעדפות של כל שחקן -
+                        עם
+                        מי הוא רוצה להיות, כל זה בניסיון על שמירת כמות השחקנים בצורה מאוזנת בכל קבוצה, וכמובן עם יכולת
+                        דינמית להוריד/להוסיף העדפות, ואו כמות קבוצות </p>
+                </div>
 
-            <div split="0.3">
-                <h2>אלגוריתם:</h2>
-                <p box class="view">
-                    מערכת העדפות עובדת בצורה של שכלול משקלים בצורה של העדפות, ברגע ששחקן מעדיף להיות עם שחקן אחר נוצר
-                    בינהם מעיין קשר שמחושב במשקל מ 0% עד 100%,
-                    כך למעשה הכלי מחשב את סכום הקשרים בכל קבוצה - ולפי זה מחליט עם שחקן שיצטרף לקבוצה יוסיף או יוריד
-                    לסכום הקשרים בקבוצה החדשה אל מול הישנה.
-                </p>
-            </div>
+                <div split="0.3" box>
+                    <h2>אלגוריתם:</h2>
+                    <p>
+                        מערכת העדפות עובדת בצורה של שכלול משקלים בצורה של העדפות, ברגע ששחקן מעדיף להיות עם שחקן אחר
+                        נוצר
+                        בינהם מעיין קשר שמחושב במשקל מ 0% עד 100%,
+                        כך למעשה הכלי מחשב את סכום הקשרים בכל קבוצה - ולפי זה מחליט עם שחקן שיצטרף לקבוצה יוסיף או יוריד
+                        לסכום הקשרים בקבוצה החדשה אל מול הישנה.
+                    </p>
+                </div>
 
-            <div split="0.3">
-                <h2>טיפים:</h2>
-                <p box class="view">
-                    ככל ששחקן מדורג יותר גבוהה ברשימת העדפות של שחקן אחר ככה יהיה יותר סיכוי שהוא יהיה איתו ביחד. שחקן
-                    יכול לקבל את כל העדפות שבחר כל עוד אין התנגשות בהעדפות וכמובן במגבלת כמות השחקנים בקבוצה,
-                    <br>
-                    ברגע ששחקן נבחר בהגדרות שחקן - יהיה ניתן לראות אותו ואת כל העדפות שלו בצורה קלה ברשימת הקבוצות.
-                </p>
+                <div split="0.3" box>
+                    <h2>טיפים:</h2>
+                    <p>
+                        ככל ששחקן מדורג יותר גבוהה ברשימת העדפות של שחקן אחר ככה יהיה יותר סיכוי שהוא יהיה איתו ביחד.
+                        שחקן
+                        יכול לקבל את כל העדפות שבחר כל עוד אין התנגשות בהעדפות וכמובן במגבלת כמות השחקנים בקבוצה,
+                        <br>
+                        ברגע ששחקן נבחר בהגדרות שחקן - יהיה ניתן לראות אותו ואת כל העדפות שלו בצורה קלה ברשימת הקבוצות.
+                    </p>
+                </div>
             </div>
-
             <br>
         </article>
+
     </main>
 </body>
 

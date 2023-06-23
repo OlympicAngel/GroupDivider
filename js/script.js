@@ -159,7 +159,7 @@ function settings_referCountChange(el) {
     let htmlStr = ""
     for (let index = 1; index < preferCount + 1; index++) {
         htmlStr += `<label for="prefer ${index}">${index}:</label>
-                    <input id="prefer ${index}" class="inline" list="playerList" value="${SearchPlayer.find(cPlayer.prefers[index-1])?.name || cPlayer.prefers[index-1]}"
+                    <input id="prefer ${index}" class="inline" list="playerList" value="${SearchPlayer.find(cPlayer.prefers[index - 1])?.name || cPlayer.prefers[index - 1]}"
                             minlength="2" placeholder="שחקן מועדף מספר #${index}" oninput="updatePreferList(event)">
                     <span class="icon none"></span><label></label>
                     <br>`
@@ -283,6 +283,12 @@ function updatePreferList(event) {
     }
 }
 
+function shufflePlayers() {
+    shuffle(players)
+    RenderTeams();
+}
+
+
 /**
  * update teams GUI
  */
@@ -391,4 +397,19 @@ function getSmallestTeam() {
     return teams.sort((a, b) => {
         return a.size < b.size ? -1 : 1
     })[0]
+}
+
+
+function shuffle(array) {
+    let currentIndex = array.length, randomIndex;
+    // While there remain elements to shuffle.
+    while (currentIndex != 0) {
+        // Pick a remaining element.
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+    }
+    return array;
 }
