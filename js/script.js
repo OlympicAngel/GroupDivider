@@ -140,7 +140,7 @@ function updatePlayerEditDiv() {
         //show name from player -> fallback to original input if fail -> fallback to none if undefined input value.
         element.value = (prefer && prefer.name) || preferStr || "";
 
-        element.nextSibling.className = "icon " + ((element.value.length <= 2 || element.value && SearchPlayer.find(element.value)) ? "none" : "");
+        element.nextElementSibling.className = "icon " + ((element.value.length <= 2 || element.value && SearchPlayer.find(element.value)) ? "none" : "");
 
     }
 }
@@ -151,14 +151,16 @@ function updatePlayerEditDiv() {
  * @param {HTMLInputElement} el 
  */
 function settings_referCountChange(el) {
-    let container = document.getElementById("freferOpts")
+    let container = document.getElementById("freferOpts");
+    let cPlayer = getEditPagePlayer();
     el.value = ~~(el.value)
     const preferCount = Number(el.value);
 
     let htmlStr = ""
     for (let index = 1; index < preferCount + 1; index++) {
-        htmlStr += `<label for="prefer${index}">${index}:</label>
-                    <input id="prefer${index}" class="inline" list="playerList" minlength="2" placeholder="שחקן מועדף מספר #${index}" oninput="updatePreferList(event)">
+        htmlStr += `<label for="prefer ${index}">${index}:</label>
+                    <input id="prefer ${index}" class="inline" list="playerList" value="${SearchPlayer.find(cPlayer.prefers[index-1])?.name || cPlayer.prefers[index-1]}"
+                            minlength="2" placeholder="שחקן מועדף מספר #${index}" oninput="updatePreferList(event)">
                     <span class="icon none"></span><label></label>
                     <br>`
     }
@@ -247,30 +249,30 @@ function updatePreferList(event) {
         let name = input.value;
 
         const removeAlerts = () => {
-            input.nextSibling.classList.remove("good")
-            input.nextSibling.classList.remove("none")
-            input.nextSibling.classList.remove("error")
+            input.nextElementSibling.classList.remove("good")
+            input.nextElementSibling.classList.remove("none")
+            input.nextElementSibling.classList.remove("error")
         }
 
         if (name.length <= 2) {
             removeAlerts();
-            input.nextSibling.classList.add("none")
+            input.nextElementSibling.classList.add("none")
             continue;
         }
 
         const searchedPlayer = SearchPlayer.find(name);
         if (name == cPlayer.name || (searchedPlayer && searchedPlayer.name == cPlayer.name)) {
-            input.nextSibling.classList.add("error")
+            input.nextElementSibling.classList.add("error")
             preferSameNameTimeout = setTimeout(() => {
                 removeAlerts();
-                input.nextSibling.classList.add("none")
+                input.nextElementSibling.classList.add("none")
                 input.value = ""
             }, preferOnChangeUpdateTimeout_delay * 1000 - 20);
             continue;
         }
 
         if (searchedPlayer && searchedPlayer != name) {
-            input.nextSibling.classList.add("good")
+            input.nextElementSibling.classList.add("good")
             searchedPlayer.element.classList.add("link");
         }
         else {
